@@ -1,0 +1,36 @@
+
+"""
+Upload limit(blocks) of different type of nodes.
+"""
+LIMIT_NODE_A = 3600
+LIMIT_NODE_B = 2400
+LIMIT_NODE_C = 1200
+LIMIT_NODE_D = 240
+LIMIT_NODE_E = 0
+
+DOWNLOAD_LIMIT = 2400
+SESSIONS = 60
+SESSION_TRANSFORM = 40
+
+"""
+Proportion of different type of nodes. 
+"""
+
+NODE_A_RATE = 0.2
+NODE_B_RATE = 0.5
+NODE_C_RATE = 0.1
+NODE_D_RATE = 0.1
+NODE_E_RATE = 0.1
+
+
+NODE_NUMBER = 1000
+DEFAULT_DEGREE = 150
+
+FILE_DENSITY = 0.2
+
+
+CONNECTION_DEGREE = 0.2
+
+BLOCK_SIZE = 256000.0
+
+ROUND_NUMBER = 1000
