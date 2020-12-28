@@ -1,5 +1,0 @@
-Node 2 is type 
-Node 3 is type 
-Node 4 is type 
-Node 1 is type 
-Node 0 is type 
