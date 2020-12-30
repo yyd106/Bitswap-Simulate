@@ -11,15 +11,17 @@ file_name = os.path.join(base_dir, 'result_2.txt')
 
 global_nodes = []
 
+network = [[1 if random.random() < consts.CONNECTION_DEGREE else 0 for i in range(consts.NODE_NUMBER)] for j in
+           range(consts.NODE_NUMBER)]
 
-network = [[1 if random.random() < consts.CONNECTION_DEGREE else 0 for i in range(consts.NODE_NUMBER)] for j in range(consts.NODE_NUMBER)]
 
-for i in range(consts.NODE_NUMBER):
-    for j in range(consts.NODE_NUMBER):
-        if i == j:
-            network[j][i] = 0
-        if network[i][j] == 1:
-            network[j][i] = 1
+def init_network():
+    for i in range(consts.NODE_NUMBER):
+        for j in range(consts.NODE_NUMBER):
+            if i == j:
+                network[j][i] = 0
+            if network[i][j] == 1:
+                network[j][i] = 1
 
 def init_ledger():
     for i in range(0, consts.NODE_NUMBER):
@@ -113,23 +115,33 @@ def one_round(round_num):
     my_open.write("\nRound " + str(round_num) + '\n')
     needed_blocks = [ 0 for n in range(consts.NODE_NUMBER)]
     total_needed = [ 0 for n in range(5)]
-    for s in range(consts.SESSIONS):
+    ave_needed = [ 0.0 for n in range(5)]
+    type_num = [ 0 for n in range(5)]
 
+    for s in range(consts.SESSIONS):
         li = list(range(consts.NODE_NUMBER))
         random.shuffle(li)
         for i in li:
             needed_blocks[i] += retrieval_file(i)
 
     for i in range(consts.NODE_NUMBER):
-        if needed_blocks[i] > 2200:
-            type = global_nodes[i].node_type
-            print("Node " + str(i) + " is type " + str(type) + ", It is dead ")
-            my_open.write("Node " + str(i) + " is type " + str(type) + ", It is dead \n")
-            total_needed[type] += needed_blocks
+        type_num[global_nodes[i].node_type] += 1
+        type = global_nodes[i].node_type
+        total_needed[type] += needed_blocks[i]
+
+        #if needed_blocks[i] > 2200:
+            #print("Node " + str(i) + " is type " + str(type) + ", It is dead ")
+            #my_open.write("Node " + str(i) + " is type " + str(type) + ", It is dead \n")
+
+    for i in range(5):
+        ave_needed[i] = total_needed[i] / type_num[i]
+        print("Node " + str(i) + ', need block: ' + str(ave_needed[i]) + " \n")
+        my_open.write("Node " + str(i) + ', need block: ' + str(ave_needed[i]) + " \n")
 
 
 my_open = open(file_name, 'a')
 
+init_network()
 init_peers()
 init_ledger()
 for i in range(consts.ROUND_NUMBER):
